@@ -4,9 +4,15 @@ const compression = require("compression");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+const mainRouter = require("./routes/mainRouter");
+
 const logger = require("./config/logger");
 
 const app = express();
+
+const notFound = require("./middleware/notFound");
+
+const errorMiddleware = require("./middleware/errorMiddleware");
 
 // Security
 app.use(helmet());
@@ -24,6 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 // Cookies
 app.use(cookieParser());
 
+
+app.use("/api/v1", mainRouter);
 // CORS
 app.use(
     cors({
@@ -45,8 +53,12 @@ app.get("/health", (req, res) => {
 
 
 
-const errorMiddleware = require("./middleware/errorMiddleware");
 
+
+
+app.use(errorMiddleware);
+
+app.use(notFound);
 app.use(errorMiddleware);
 
 module.exports = app;
