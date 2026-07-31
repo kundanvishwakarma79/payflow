@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 import { BottomWarning } from "../components/BottomWarning";
 import { Button } from "../components/Button";
 import { Heading } from "../components/heading";
@@ -26,8 +26,8 @@ export const Signin = () => {
     setError("");
 
     try {
-      const res = await axios.post(
-        "http://localhost:3000/api/v1/user/login",
+      const res = await api.post(
+    "/user/login",
         {
           username: userName.trim(),
           password,
@@ -37,6 +37,7 @@ export const Signin = () => {
       if (res.data.token) {
         // Store token and user info
         localStorage.setItem("token", res.data.token);
+        console.log("Saved Token:", localStorage.getItem("token"));
         localStorage.setItem("username", res.data.user?.username || userName);
         localStorage.setItem("firstName", res.data.user?.firstName || "");
         localStorage.setItem("userId", res.data.user?.id || "");

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 import { Appbar } from "../components/Appbar";
 import { Button } from "../components/Button";
 import { InputBox } from "../components/InputBox";
@@ -46,18 +46,10 @@ export const SendMoney = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/account/transfer",
-        {
-          to: userId,
-          amount: parseFloat(amount),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.post("/account/transfer", {
+  to: userId,
+  amount: parseFloat(amount),
+});
 
       if (response.data.message) {
         setSuccess(response.data.message);

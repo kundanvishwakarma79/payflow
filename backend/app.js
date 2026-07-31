@@ -20,8 +20,18 @@ app.use(helmet());
 // Compression
 app.use(compression());
 
+
+
 // Logger
 app.use(logger);
+
+// CORS
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+);
 
 // Body Parser
 app.use(express.json());
@@ -32,13 +42,7 @@ app.use(cookieParser());
 
 
 app.use("/api/v1", mainRouter);
-// CORS
-app.use(
-    cors({
-        origin: true,
-        credentials: true,
-    })
-);
+
 
 // Health Check
 app.get("/health", (req, res) => {
@@ -56,7 +60,7 @@ app.get("/health", (req, res) => {
 
 
 
-app.use(errorMiddleware);
+
 
 app.use(notFound);
 app.use(errorMiddleware);

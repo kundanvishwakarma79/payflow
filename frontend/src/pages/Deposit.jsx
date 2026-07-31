@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 import { Appbar } from "../components/Appbar";
 import { Button } from "../components/Button";
 import { InputBox } from "../components/InputBox";
@@ -25,14 +25,7 @@ const Deposit = () => {
     // Fetch current balance
     const fetchBalance = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/account/balance",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await api.get("/account/balance");
         setCurrentBalance(response.data.balance || 0);
       } catch (error) {
         console.error("Error fetching balance:", error);
@@ -70,17 +63,9 @@ const Deposit = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/account/add",
-        {
-          amount: parseFloat(amount),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+     const response = await api.post("/account/add", {
+  amount: parseFloat(amount),
+});
 
       if (response.data.success) {
         setSuccess(

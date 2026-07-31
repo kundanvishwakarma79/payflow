@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./Button";
-import axios from "axios";
-
+import api from "../utils/api";
 export const Users = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,11 +17,7 @@ export const Users = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:3000/api/v1/user/bulk", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+       const response = await api.get("/user/bulk");
         
         // Filter out current user
         const currentUsername = localStorage.getItem("username");

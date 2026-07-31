@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+
+
+import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { BottomWarning } from "../components/BottomWarning";
 import { Button } from "../components/Button";
@@ -33,7 +35,7 @@ export const Signup = () => {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:3000/api/v1/user/register", {
+      const res = await api.post("/user/register", {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         username: userName.trim(),
